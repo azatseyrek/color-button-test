@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react';
+import {getAllByTestId, getByTestId} from '@testing-library/react';
 
 function App() {
+  const [color, setColor] = useState('red');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <button
+        onClick={() => setColor((prev) => (prev === 'red' ? 'blue' : 'red'))}
+        style={{
+          color: 'white',
+          backgroundColor: color,
+        }}
+      >
+        {color === 'red' ? 'change to blue' : 'change to red'}
+      </button>
+
+      <button  data-testid="delete-button" className="delete">
+        delete
+      </button>
     </div>
   );
 }
