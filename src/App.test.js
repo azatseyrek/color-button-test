@@ -41,3 +41,27 @@ test('delete button text', () => {
   const buttonText = buttonElement.textContent;
   expect(buttonText).toBe('delete');
 });
+
+test('initial conditions', () => {
+  render(<App />);
+  // check that the button starts out enabled
+  const buttonElement = screen.getByRole('button', {name: /change to blue/i});
+  const deleteButtonElement = screen.getByTestId('delete-button');
+  expect(buttonElement && deleteButtonElement).toBeEnabled();
+
+  // check that the checkbox starts out unchecked
+  const checkboxElement = screen.getByRole('checkbox');
+  expect(checkboxElement).not.toBeChecked();
+
+  // check when checkbox clicked, button is disabled
+  fireEvent.click(checkboxElement);
+  expect(buttonElement && deleteButtonElement).toBeDisabled();
+});
+
+test('find the checkbox lable', () => {
+  render(<App />);
+  const checkBoxElement = screen.getByRole('checkbox', {
+    name: /disable button/i,
+  });
+  expect(checkBoxElement).toBeInTheDocument();
+});
