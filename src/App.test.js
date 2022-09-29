@@ -1,5 +1,5 @@
 import {fireEvent, render, screen} from '@testing-library/react';
-import App from './App';
+import App, {replaceStringWithCamelCase} from './App';
 
 // test('renders  Hello World text', () => {
 //   render(<App />);
@@ -64,4 +64,33 @@ test('find the checkbox lable', () => {
     name: /disable button/i,
   });
   expect(checkBoxElement).toBeInTheDocument();
+});
+
+test('check the buttons styles when checkbox is enabled or diosabled', () => {
+  render(<App />);
+  const buttonElement = screen.getByRole('button', {name: /change to blue/i});
+  const checkboxElement = screen.getByRole('checkbox', {
+    name: /disable button/i,
+  });
+  expect(checkboxElement).not.toBeChecked();
+  expect(buttonElement).toBeEnabled();
+  expect(buttonElement).toHaveStyle({'background-color': 'red'});
+  fireEvent.click(checkboxElement);
+  expect(checkboxElement).toBeChecked();
+  expect(buttonElement).toBeDisabled();
+  expect(buttonElement).toHaveStyle({'background-color': 'grey'});
+});
+
+describe('spaces before camel-case capital letters', () => {
+  test('works for no inner capital letters', () => {
+    expect(replaceStringWithCamelCase('Red')).toBe('red');
+  });
+  test('works for one inner capital letter', () => {
+    expect(replaceStringWithCamelCase('MidnightBlue')).toBe('midnightBlue');
+  });
+  test('works for multiple inner capital letters', () => {
+    expect(replaceStringWithCamelCase('Medium Violet Red')).toBe(
+      'mediumVioletRed',
+    );
+  });
 });

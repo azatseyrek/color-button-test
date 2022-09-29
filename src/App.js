@@ -1,9 +1,24 @@
 import {useEffect, useRef, useState} from 'react';
 import {getAllByTestId, getByTestId} from '@testing-library/react';
 
+export const replaceStringWithCamelCase = (str) => {
+  return str
+    .replace(/\s(.)/g, function ($1) {
+      return $1.toUpperCase();
+    })
+    .replace(/\s/g, '')
+    .replace(/^(.)/, function ($1) {
+      return $1.toLowerCase();
+    });
+};
+
 function App() {
   const [color, setColor] = useState('red');
   const [isChecked, setIsChecked] = useState(false);
+
+  const test = replaceStringWithCamelCase('Azat Seyrek Miran Seyrek');
+
+  console.log(test);
 
   useEffect(() => {
     console.log(isChecked);
@@ -16,7 +31,7 @@ function App() {
         onClick={() => setColor((prev) => (prev === 'red' ? 'blue' : 'red'))}
         style={{
           color: 'white',
-          backgroundColor: color,
+          backgroundColor: isChecked ? 'grey' : color,
         }}
       >
         {color === 'red' ? 'change to blue' : 'change to red'}
